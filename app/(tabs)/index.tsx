@@ -1,70 +1,32 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import MenuLayout from '@/components/MenuLayout';
+import { Image, View } from 'react-native';
+import Svg, { RadialGradient, Defs, Stop, Circle } from 'react-native-svg';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+export default function Map() {
+    return (
+        <MenuLayout>
+            <View className='relative'>
+                <View className='absolute top-52 left-20 w-12 h-12 rounded-full z-50'>
+                    <Svg width="100%" height="100%" viewBox="0 0 100 100">
+                        <Defs>
+                            <RadialGradient id="grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                <Stop offset="0%" stopColor="#FF0000" />
+                                <Stop offset="50%" stopColor="#FFFF00" />
+                                <Stop offset="75%" stopColor="#90EE90" />
+                                <Stop offset="100%" stopColor="#51AFF7" />
+                            </RadialGradient>
+                        </Defs>
+                        <Circle cx="50" cy="50" r="50" fill="url(#grad)" />
+                    </Svg>
+                </View>
+                <View className='items-center w-full'>
+                    <Image
+                        className='z-10 w-11/12 h-96'
+                        source={require('@/assets/map.png')}
+                    />
+                </View>
+            </View>
+        </MenuLayout>
+    );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

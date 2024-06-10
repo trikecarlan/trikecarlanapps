@@ -29,7 +29,23 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="signInDriver" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(driver)" options={{ headerShown: false }} />
+        <Stack.Screen name="signUpPassenger" options={{ headerShown: false }} />
+        <Stack.Screen name="signInPassenger" options={{ headerShown: false }} />
+        <Stack.Screen name="signUpDriver" options={{ headerShown: false }} />
+        <Stack.Screen name="forgotDriverPassword" options={{ headerShown: false }} />
+        <Stack.Screen name="forgotUserPassword" options={{ headerShown: false }} />
+        <Stack.Screen name="createNewPassword" options={{ headerShown: false }} />
+        <Stack.Screen name="verifyEmail" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/rateDriver" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/changeProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/myReport" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/driversInfo" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/reportDriver" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/reportIncident" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>

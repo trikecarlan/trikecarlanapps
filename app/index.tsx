@@ -12,6 +12,7 @@ export default function HomeScreen() {
     const [userUid, setuserUid] = React.useState('')
     const dbRef = ref(getDatabase(app));
     const router = useRouter()
+    
     const { user, setUser, updateUser } = useStoreUser();
     const { driver, setDriver, updateDriver } = useStoreDriver();
 

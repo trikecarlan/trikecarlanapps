@@ -1,10 +1,11 @@
 import { Image, StyleSheet, Platform, Text, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, View, TextInput, Pressable } from 'react-native';
 import React from 'react';
-import { getAuth, signInWithEmailAndPassword, getReactNativePersistence, initializeAuth } from 'firebase/auth';
-import { app } from '@/firebaseConfig';
+import { getAuth, signInWithEmailAndPassword, getReactNativePersistence, initializeAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { app, auth } from '@/firebaseConfig';
 import { Link, useRouter } from 'expo-router';
 import { child, get, getDatabase, ref } from 'firebase/database';
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import useMessage from '@/hooks/useMessage';
 
 interface User {
     email: string;
@@ -20,13 +21,14 @@ interface Data {
 }
 
 export default function forgotUserPassword() {
-    const [sideCartNum, setSideCartNumber] = React.useState('');
+    const [email, setEmail] = React.useState('');
 
     const router = useRouter()
 
     const dbRef = ref(getDatabase(app));
-    const handleSendCode = () => {
-        router.push("/verifyEmail")
+    const handleSendCode = async () => {
+        await sendPasswordResetEmail(auth, email);
+        useMessage(["Please check your email for the change password link."], "Email Sent")
     };
 
 
@@ -49,8 +51,8 @@ export default function forgotUserPassword() {
                 <View className="grid justify-center items-center w-full mx-6 gap-4">
                     <TextInput
                         className="rounded-lg text-xl py-2 pl-2 w-3/4 border-2 border-gray-400"
-                        onChangeText={setSideCartNumber}
-                        value={sideCartNum}
+                        onChangeText={setEmail}
+                        value={email}
                         placeholder="Email"
                     />
                 </View>

@@ -3,7 +3,7 @@ import { Button, Image, Pressable, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { ref as dbRef } from 'firebase/database';
+import { ref as dbRef, update } from 'firebase/database';
 import TabLayout from '@/components/TabLayout';
 import { useStoreUser } from '@/hooks/useStore';
 import { getDatabase, set } from 'firebase/database';
@@ -91,8 +91,8 @@ export default function ChangeProfile() {
         .then((url) => {
             updateUser({ profile: url })
             try {
-                set(dbRef(db, `users/${userUid}/profile`), {
-                    url
+                update(dbRef(db, `users/${userUid}`), {
+                    profile: url
                 });
             } catch (err) {
                 console.log("change profile failed", err)
@@ -109,7 +109,7 @@ export default function ChangeProfile() {
 
 
     return (
-        <TabLayout route={"/tabs"} title='Change Profile'>
+        <TabLayout route={"(tabs)"} title='Profile'>
             <View className='items-center relative m-10'>
                 {selectedImage ?
                     <Image
@@ -138,18 +138,26 @@ export default function ChangeProfile() {
                         </View>
                     </View>}
             </View>
-            <View className='items-center w-full gap-2'>
+            <View className='items-center w-full  mb-8 gap-2'>
                 <Pressable className='bg-orange-600 rounded-lg h-max py-2 w-3/4' onPress={pickImage}>
                     <Text className='text-center text-gray-100 text-lg'>
-                        Choose Image
+                        Change Profile Image
                     </Text>
                 </Pressable>
-                <Pressable className='bg-orange-600 rounded-lg h-max py-2 w-3/4' onPress={uploadImage}>
-                    <Text className='text-center text-gray-100 text-lg'>
-                        Upload Profile
-                    </Text>
-                </Pressable>
+                {selectedImage &&
+                    <Pressable className='bg-orange-600 rounded-lg h-max py-2 w-3/4' onPress={uploadImage}>
+                        <Text className='text-center text-gray-100 text-lg'>
+                            Upload Profile
+                        </Text>
+                    </Pressable>}
             </View>
+            <View className='ml-8'>
+                <Text>Name: {user.firstName} {user.lastName}</Text>
+                <Text>Email: {user.email}</Text>
+                <Text>Address: {user.address}</Text>
+                <Text>Phonenumber: {user.phoneNumber}</Text>
+            </View>
+
         </TabLayout>
     );
 }

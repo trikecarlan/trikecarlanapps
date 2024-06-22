@@ -1,10 +1,11 @@
 import { Image, StyleSheet, Platform, Text, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, View, TextInput, Pressable } from 'react-native';
 import React from 'react';
-import { getAuth, signInWithEmailAndPassword, getReactNativePersistence, initializeAuth } from 'firebase/auth';
-import { app } from '@/firebaseConfig';
+import { getAuth, signInWithEmailAndPassword, getReactNativePersistence, initializeAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { app, auth } from '@/firebaseConfig';
 import { Link, useRouter } from 'expo-router';
 import { child, get, getDatabase, ref } from 'firebase/database';
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import useMessage from '@/hooks/useMessage';
 
 interface User {
     email: string;
@@ -25,10 +26,10 @@ export default function forgotDriverPassword() {
     const router = useRouter()
 
     const dbRef = ref(getDatabase(app));
-    const handleSendCode = () => {
-        router.push("/verifyEmail")
+    const handleSendCode = async () => {
+        await sendPasswordResetEmail(auth, sideCartNum);
+        useMessage(["Please check your email for the change password link."], "Email Sent")
     };
-
 
     return (
         <SafeAreaView className="flex-1 h-screen">
@@ -51,7 +52,7 @@ export default function forgotDriverPassword() {
                         className="rounded-lg text-xl py-2 pl-2 w-3/4 border-2 border-gray-400"
                         onChangeText={setSideCartNumber}
                         value={sideCartNum}
-                        placeholder="Sidecart No."
+                        placeholder="Email"
                     />
                 </View>
                 <Pressable className="rounded-lg bg-orange-500 py-3 w-3/4 mt-4"

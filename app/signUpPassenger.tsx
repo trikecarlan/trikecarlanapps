@@ -35,7 +35,8 @@ export default function SignUpPassenger() {
                 birthDay: birthday,
                 gender: gender,
                 address: address,
-                role: 'user'
+                role: 'user',
+                uid: uid
             });
             const testUserCredential = await signInWithEmailAndPassword(auth, email, password);
             if (testUserCredential) {

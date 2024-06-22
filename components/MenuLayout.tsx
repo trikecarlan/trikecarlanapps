@@ -47,7 +47,9 @@ export default function MenuLayout({ children, title }: MenuLayoutProps) {
     }).catch((error) => {
         console.log(error)
     });
-
+    const handleSettings = () => {
+        router.push("/screens/settings")
+    }
     const getImage = () => getDownloadURL(ref(storage, `images/${user.email}`))
         .then((url) => {
             setprofile(url)
@@ -65,59 +67,59 @@ export default function MenuLayout({ children, title }: MenuLayoutProps) {
             className='flex flex-col h-screen bg-white'
             behavior={Platform.OS === "ios" ? "padding" : "position"}
         >
-            <ScrollView>
-                <StatusBar hidden={true} />
-                {!openMenu ?
-                    <SafeAreaView className='h-max m-1 ralative border-b-4 border-gray-300 '>
-                        <Pressable onPress={() => setOpenMenu(!openMenu)}>
-                            <Ionicons size={40} name="menu-outline" color={"#F2722B"} />
-                        </Pressable>
-                        <View className='w-full absolute right-0 top-0 h-max m-1 items-center'>
-                            <Text className='text-2xl'>{title}</Text>
-                        </View>
-                    </SafeAreaView>
-                    :
-                    <View className='flex flex-row w-full'>
-                        <View className='w-3/4 h-screen bg-gray-100 border-r-2 border-gray-400'>
-                            <View className="h-52 bg-[#F2722B] border-b-2 border-gray-400 py-20 gap-2 items-center justify-center">
-                                <Pressable onPress={handleChangeProfile}>
-                                    {profile ?
-                                        <Image
-                                            className='rounded-full h-28 w-28 border-2 border-gray-100'
-                                            source={{ uri: profile }}
-                                        />
-                                        :
-                                        <Image
-                                            className='rounded-full h-28 w-28 border-2 border-gray-100'
-                                            source={require('@/assets/profiles/blankProfile.png')}
-                                        />
-                                    }
-                                </Pressable>
-                                <Text className='text-gray-100'>{user?.firstName} {user?.lastName}</Text>
-                                {user?.role === "driver" ?
-                                    <Text className='text-gray-100'>Side Cart No: {user.sideCartNumber}</Text> :
-                                    <Text className='text-gray-100'>ID: {userUid.slice(20)}</Text>
-                                }
-                            </View>
-                            <View className='m-6'>
-                                <Pressable className='flex my-2 items-center flex-row gap-3'>
-                                    <Ionicons size={20} name="person-outline" />
-                                    <Text>My Profile</Text>
-                                </Pressable>
-                                <Pressable className='flex my-2 items-center flex-row gap-3'>
-                                    <Ionicons size={20} name="settings-outline" />
-                                    <Text>Settings</Text>
-                                </Pressable>
-                                <Pressable onPress={handleSignOut} className='flex my-2 items-center flex-row gap-3'>
-                                    <Ionicons size={20} name="log-out-outline" />
-                                    <Text>Logout</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                        <Pressable className='w-full bg-transparent' onPress={() => setOpenMenu(!openMenu)}>
-                        </Pressable>
+            <StatusBar hidden={true} />
+            {!openMenu ?
+                <SafeAreaView className='h-max m-1 ralative border-b-4 border-gray-300 '>
+                    <Pressable onPress={() => setOpenMenu(!openMenu)}>
+                        <Ionicons size={40} name="menu-outline" color={"#F2722B"} />
+                    </Pressable>
+                    <View className='w-full absolute right-0 top-0 h-max m-1 items-center'>
+                        <Text className='text-2xl'>{title}</Text>
                     </View>
-                }
+                </SafeAreaView>
+                :
+                <View className='absolute top-0 z-50 flex flex-row w-screen'>
+                    <View className='w-3/4 h-screen bg-gray-100 border-r-2 border-gray-400'>
+                        <View className="h-52 bg-[#F2722B] border-b-2 border-gray-400 py-20 gap-2 items-center justify-center">
+                            <Pressable onPress={handleChangeProfile}>
+                                {profile ?
+                                    <Image
+                                        className='rounded-full h-28 w-28 border-2 border-gray-100'
+                                        source={{ uri: profile }}
+                                    />
+                                    :
+                                    <Image
+                                        className='rounded-full h-28 w-28 border-2 border-gray-100'
+                                        source={require('@/assets/profiles/blankProfile.png')}
+                                    />
+                                }
+                            </Pressable>
+                            <Text className='text-gray-100'>{user?.firstName} {user?.lastName}</Text>
+                            {user?.role === "driver" ?
+                                <Text className='text-gray-100'>Side Cart No: {user.sideCartNumber}</Text> :
+                                <Text className='text-gray-100'>ID: {userUid.slice(20)}</Text>
+                            }
+                        </View>
+                        <View className='m-6'>
+                            <Pressable onPress={handleChangeProfile} className='flex my-2 items-center flex-row gap-3'>
+                                <Ionicons size={20} name="person-outline" />
+                                <Text>My Profile</Text>
+                            </Pressable>
+                            <Pressable onPress={handleSettings} className='flex my-2 items-center flex-row gap-3'>
+                                <Ionicons size={20} name="settings-outline" />
+                                <Text>Settings</Text>
+                            </Pressable>
+                            <Pressable onPress={handleSignOut} className='flex my-2 items-center flex-row gap-3'>
+                                <Ionicons size={20} name="log-out-outline" />
+                                <Text>Logout</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                    <Pressable className='w-full bg-transparent' onPress={() => setOpenMenu(!openMenu)}>
+                    </Pressable>
+                </View>
+            }
+            <ScrollView>
                 <View>
                     {children}
                 </View>

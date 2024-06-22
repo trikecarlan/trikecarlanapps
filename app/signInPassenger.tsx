@@ -1,11 +1,12 @@
 import { Image, StyleSheet, Platform, Text, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, View, TextInput, Pressable } from 'react-native';
 import React from 'react';
-import { UserCredential, getAuth, getReactNativePersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import { UserCredential, getAuth, getReactNativePersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { app, auth } from '@/firebaseConfig';
 import { Link, useRouter } from 'expo-router';
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { User, useStoreUser } from '@/hooks/useStore';
 import { child, get, getDatabase, ref } from 'firebase/database';
+import useMessage from '@/hooks/useMessage';
 
 interface Data {
     [key: string]: User;
@@ -24,11 +25,16 @@ export default function signInPassenger() {
             const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
             const snapshot = await get(child(dbRef, `/users/${userCredential.user.uid}`));
             if (snapshot.exists()) {
-                setUser(snapshot.val())
-                router.push("/(tabs)")
+                if (snapshot.val().role === "user") {
+                    setUser(snapshot.val())
+                    router.push("/(tabs)")
+                } else {
+                    alert("Only users can access this.")
+                    signOut(auth)
+                }
             }
         } catch (error) {
-            console.error('Login error:', error);
+            useMessage(["Please check your email or password."], "Invalid Credentials")
         } finally {
             console.log("false");
         }

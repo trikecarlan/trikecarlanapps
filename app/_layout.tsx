@@ -46,6 +46,9 @@ export default function RootLayout() {
         <Stack.Screen name="screens/driversInfo" options={{ headerShown: false }} />
         <Stack.Screen name="screens/reportDriver" options={{ headerShown: false }} />
         <Stack.Screen name="screens/reportIncident" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/updateEmail" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/settings" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/changePassword" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
